@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Resolve Aí – problemas da escola</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eaf1f8;--grid:#c9d9ea;--ink:#1b2a4a;--muted:#51608100;--soft:#516081;--card:#ffffff;--line:#1b2a4a;--hl:#ffd84a;--red:#d9432b;--green:#1f8a5b;--blue:#2d6cdf;--on-hl:#1b2a4a;
+color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11182a;--grid:#1d2842;--ink:#eef2fb;--soft:#a3b0cc;--card:#192138;--line:#eef2fb;--hl:#ffd84a;--red:#ff7a63;--green:#4cc796;--blue:#7aa7ff;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#11182a;--grid:#1d2842;--ink:#eef2fb;--soft:#a3b0cc;--card:#192138;--line:#eef2fb;--hl:#ffd84a;--red:#ff7a63;--green:#4cc796;--blue:#7aa7ff;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px;color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,sans-serif;line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding:20px 18px 60px}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;padding:18px 0 8px}
+h1{font-family:"Caveat Brush","Comic Sans MS",cursive;font-size:clamp(2.6rem,8vw,4.4rem);line-height:1;margin:0;font-weight:400}
+h1 mark{background:var(--hl);color:var(--on-hl);padding:0 .2em;transform:rotate(-1.5deg);display:inline-block}
+.sub{max-width:52ch;margin:10px 0 0;color:var(--soft)}
+.theme{background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:8px;padding:6px 12px;font:inherit;cursor:pointer}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+.stat{background:var(--card);border:2px solid var(--line);border-radius:6px;padding:8px 14px;min-width:110px}
+.stat b{font-family:"Caveat Brush",cursive;font-size:2rem;font-weight:400;display:block;line-height:1}
+.stat span{color:var(--soft);font-size:.9rem}
+.grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:22px;align-items:start}
+@media(max-width:780px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--card);border:2px solid var(--line);border-radius:6px;padding:18px;box-shadow:5px 5px 0 var(--line)}
+h2{font-family:"Caveat Brush",cursive;font-weight:400;font-size:1.9rem;margin:0 0 10px}
+label{display:block;font-weight:700;margin:12px 0 4px;font-size:.95rem}
+input[type=text],select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:6px;padding:9px 10px}
+textarea{min-height:96px;resize:vertical}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.chk{display:flex;gap:8px;align-items:center;margin-top:12px;font-weight:400}
+.chk input{width:18px;height:18px}
+.btn{font:inherit;font-weight:700;cursor:pointer;border:2px solid var(--line);border-radius:6px;padding:10px 16px;background:var(--hl);color:var(--on-hl);margin-top:16px;width:100%}
+.btn:active{transform:translateY(2px)}
+.tip{margin-top:14px;padding:10px 12px;border-left:5px solid var(--hl);background:var(--bg);font-size:.92rem}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.filters button{font:inherit;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:99px;padding:4px 14px;cursor:pointer}
+.filters button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.item{border:2px solid var(--line);border-radius:6px;padding:14px;margin-bottom:14px;background:var(--card);position:relative}
+.item h3{margin:0 0 4px;font-size:1.05rem}
+.meta{color:var(--soft);font-size:.88rem;margin-bottom:6px}
+.badge{display:inline-block;font-size:.82rem;font-weight:700;border:2px solid currentColor;border-radius:99px;padding:0 10px;margin-right:6px}
+.s-aberto{color:var(--red)}.s-andamento{color:var(--blue)}.s-resolvido{color:var(--green)}
+.urg-alta{background:var(--red);color:#fff;border-color:var(--red)}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.acts button{font:inherit;font-size:.88rem;cursor:pointer;background:transparent;color:var(--ink);border:2px solid var(--line);border-radius:6px;padding:3px 10px}
+.acts .del{color:var(--red);border-color:var(--red)}
+.empty{padding:26px;text-align:center;border:2px dashed var(--soft);border-radius:6px;color:var(--soft)}
+.resolvido h3{text-decoration:line-through;text-decoration-color:var(--green)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+ <div>
+  <h1>Resolve <mark>Aí</mark></h1>
+  <p class="sub">Viu algo quebrado, injusto ou perigoso na escola? Registre aqui, acompanhe o andamento e veja quando for resolvido.</p>
+ </div>
+ <button class="theme" id="theme" type="button">Modo escuro</button>
+</header>
+
+<div class="stats" id="stats"></div>
+
+<div class="grid">
+ <section class="panel" aria-labelledby="t-novo">
+  <h2 id="t-novo">Relatar problema</h2>
+  <div id="form">
+   <label for="titulo">O que aconteceu?</label>
+   <input type="text" id="titulo" maxlength="80" placeholder="Ex.: Ventilador da sala 12 não liga">
+   <label for="cat">Tipo de problema</label>
+   <select id="cat"></select>
+   <label for="local">Onde?</label>
+   <input type="text" id="local" maxlength="50" placeholder="Ex.: Sala 12, pátio, banheiro do 2º andar">
+   <label for="urg">Urgência</label>
+   <select id="urg"><option value="baixa">Baixa – pode esperar</option><option value="media" selected>Média – atrapalha</option><option value="alta">Alta – risco ou urgente</option></select>
+   <label for="desc">Detalhes</label>
+   <textarea id="desc" placeholder="Conte desde quando acontece e quem é afetado."></textarea>
+   <label class="chk"><input type="checkbox" id="anon"> Enviar sem meu nome</label>
+   <div id="nomeBox"><label for="nome">Seu nome</label><input type="text" id="nome" maxlength="40" placeholder="Nome e turma"></div>
+   <button class="btn" id="enviar" type="button">Registrar problema</button>
+   <p id="erro" role="alert" style="color:var(--red);margin:8px 0 0"></p>
+   <div class="tip" id="tip"></div>
+  </div>
+ </section>
+
+ <section aria-labelledby="t-lista">
+  <h2 id="t-lista">Mural de problemas</h2>
+  <div class="filters" id="filters"></div>
+  <div id="lista"></div>
+ </section>
+</div>
+</div>
+
+<script>
+var CATS={
+ "Estrutura e limpeza":"Procure a coordenação ou a secretaria com foto do problema. Se houver risco de queda ou choque, avise um adulto na hora.",
+ "Bullying ou convivência":"Você não precisa enfrentar isso sozinho. Fale com um professor ou orientador de confiança e, se preferir, envie sem seu nome.",
+ "Material e equipamentos":"Informe o item, a quantidade e a sala. Pedidos com número exato costumam ser atendidos mais rápido.",
+ "Segurança":"Se alguém corre perigo agora, avise imediatamente um funcionário da escola. Aqui você registra para a direção agir.",
+ "Merenda e cantina":"Descreva o que foi servido, o horário e quantos alunos notaram. Se passou mal, avise a enfermaria.",
+ "Aulas e horários":"Indique a disciplina, a turma e o dia. Sugestões de solução ajudam a coordenação a decidir.",
+ "Outro":"Explique com calma. Quanto mais claro o relato, mais fácil de resolver."
+};
+var ST={aberto:"Aberto",andamento:"Em andamento",resolvido:"Resolvido"};
+var KEY="resolve-ai-v1",items=[],filtro="todos";
+var seed=[
+ {id:1,t:"Ventilador da sala 12 não liga",c:"Estrutura e limpeza",l:"Sala 12",u:"media",d:"Está assim desde segunda e a sala fica muito quente à tarde.",n:"Anônimo",s:"andamento",at:Date.now()-86400000*3},
+ {id:2,t:"Bebedouro do pátio sem água gelada",c:"Estrutura e limpeza",l:"Pátio",u:"baixa",d:"A água sai quente e muita gente deixou de beber.",n:"Anônimo",s:"aberto",at:Date.now()-86400000}
+];
+function load(){try{var r=localStorage.getItem(KEY);if(r)return JSON.parse(r)}catch(e){}return seed.slice()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(items))}catch(e){}}
+function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML}
+function $(i){return document.getElementById(i)}
+
+function init(){
+ items=load();
+ var sel=$("cat");Object.keys(CATS).forEach(function(k){var o=document.createElement("option");o.textContent=k;sel.appendChild(o)});
+ sel.onchange=tip;tip();
+ $("anon").onchange=function(){$("nomeBox").style.display=this.checked?"none":"block"};
+ $("enviar").onclick=add;
+ var f=$("filters");
+ [["todos","Todos"],["aberto","Abertos"],["andamento","Em andamento"],["resolvido","Resolvidos"]].forEach(function(p){
+  var b=document.createElement("button");b.type="button";b.textContent=p[1];b.dataset.f=p[0];
+  b.onclick=function(){filtro=p[0];render()};f.appendChild(b)});
+ $("theme").onclick=function(){
+  var r=document.documentElement,dark=getComputedStyle(r).colorScheme==="dark";
+  r.setAttribute("data-theme",dark?"light":"dark");this.textContent=dark?"Modo escuro":"Modo claro"};
+ render();
+}
+function tip(){$("tip").textContent=CATS[$("cat").value]}
+function add(){
+ var t=$("titulo").value.trim(),d=$("desc").value.trim(),l=$("local").value.trim();
+ if(!t||!l||!d){$("erro").textContent="Preencha o que aconteceu, onde e os detalhes.";return}
+ $("erro").textContent="";
+ var anon=$("anon").checked,n=$("nome").value.trim();
+ items.unshift({id:Date.now(),t:t,c:$("cat").value,l:l,u:$("urg").value,d:d,n:(anon||!n)?"Anônimo":n,s:"aberto",at:Date.now()});
+ save();["titulo","local","desc"].forEach(function(i){$(i).value=""});
+ filtro="todos";render();
+}
+function setS(id,s){items.forEach(function(i){if(i.id===id)i.s=s});save();render()}
+function del(id){if(confirm("Apagar este registro?")){items=items.filter(function(i){return i.id!==id});save();render()}}
+function ago(ts){var d=Math.floor((Date.now()-ts)/86400000);return d<1?"hoje":d===1?"ontem":"há "+d+" dias"}
+function render(){
+ var c={aberto:0,andamento:0,resolvido:0};items.forEach(function(i){c[i.s]++});
+ $("stats").innerHTML=[["Abertos",c.aberto],["Em andamento",c.andamento],["Resolvidos",c.resolvido]].map(function(x){return '<div class="stat"><b>'+x[1]+'</b><span>'+x[0]+'</span></div>'}).join("");
+ Array.prototype.forEach.call($("filters").children,function(b){b.setAttribute("aria-pressed",b.dataset.f===filtro)});
+ var list=items.filter(function(i){return filtro==="todos"||i.s===filtro});
+ if(!list.length){$("lista").innerHTML='<div class="empty">Nenhum problema nesta lista. Use o formulário para registrar o primeiro.</div>';return}
+ $("lista").innerHTML=list.map(function(i){
+  var acts="";
+  if(i.s!=="andamento"&&i.s!=="resolvido")acts+='<button data-a="andamento" data-id="'+i.id+'">Marcar em andamento</button>';
+  if(i.s!=="resolvido")acts+='<button data-a="resolvido" data-id="'+i.id+'">Marcar resolvido</button>';
+  else acts+='<button data-a="aberto" data-id="'+i.id+'">Reabrir</button>';
+  acts+='<button class="del" data-a="del" data-id="'+i.id+'">Apagar</button>';
+  return '<article class="item '+i.s+'"><div class="meta"><span class="badge s-'+i.s+'">'+ST[i.s]+'</span>'+(i.u==="alta"?'<span class="badge urg-alta">Urgente</span>':'')+esc(i.c)+'</div><h3>'+esc(i.t)+'</h3><div class="meta">'+esc(i.l)+' · '+esc(i.n)+' · '+ago(i.at)+'</div><p style="margin:0">'+esc(i.d)+'</p><div class="acts">'+acts+'</div></article>'}).join("");
+}
+document.addEventListener("click",function(e){
+ var b=e.target.closest("[data-a]");if(!b)return;
+ var id=Number(b.dataset.id),a=b.dataset.a;
+ if(a==="del")del(id);else setS(id,a);
+});
+init();
+</script>
+</body>
+</html>
